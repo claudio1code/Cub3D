@@ -1,4 +1,4 @@
-NAME = fractol
+NAME = cub3D
 
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -O3
