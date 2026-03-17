@@ -49,17 +49,20 @@ $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
 
-$(NAME)	: $(OBJ)
-	@echo -n "\n$(YELLOW)A linkar $(NAME)... $(DEF_COLOR)"
-	@sh -c 'i=0; while [ $$i -lt 10 ]; do \
-		echo -n "\b|"; sleep 0.05; \
-		echo -n "\b/"; sleep 0.05; \
-		echo -n "\b-"; sleep 0.05; \
-				echo -n "\b\\"; sleep 0.05; \
-		i=$$(($$i+1)); \
-	done'
-	@echo "\b\b$(GREEN)OK!$(DEF_COLOR)"
-	@ar -rcs $(NAME) $(OBJ)
+$(NAME): $(OBJ)
+	@printf "$(YELLOW)Archiving $(NAME)...  $(DEF_COLOR)"
+	@sh -c ' \
+		(while :; do \
+			printf "\b|"; sleep 0.05; \
+			printf "\b/"; sleep 0.05; \
+			printf "\b-"; sleep 0.05; \
+			printf "\b\\"; sleep 0.05; \
+		done) & \
+		SPIN_PID=$$!; \
+		ar rcs $(NAME) $(OBJ); \
+		kill $$SPIN_PID 2>/dev/null; \
+		wait $$SPIN_PID 2>/dev/null || true; \
+		printf "\b\b$(GREEN)OK!$(DEF_COLOR)\n"'
 	@cp $(NAME) $(NAME_UNAME)
 
 check: all

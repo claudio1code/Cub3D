@@ -33,16 +33,19 @@ DEF_COLOR = \033[0;39m
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@echo -n "$(YELLOW)A linkar $(NAME)... $(DEF_COLOR)"
-	@sh -c 'i=0; while [ $$i -lt 10 ]; do \
-		echo -n "\b|"; sleep 0.05; \
-		echo -n "\b/"; sleep 0.05; \
-		echo -n "\b-"; sleep 0.05; \
-		echo -n "\b\\"; sleep 0.05; \
-		i=$$(($$i+1)); \
-	done'
-	@echo "\b\b$(GREEN)OK!$(DEF_COLOR)"
-	@$(CC) -o $(NAME) $(OBJ) $(LFLAGS)
+	@printf "$(YELLOW)A linkar $(NAME)...  $(DEF_COLOR)"
+	@sh -c ' \
+		(while :; do \
+			printf "\b|"; sleep 0.05; \
+			printf "\b/"; sleep 0.05; \
+			printf "\b-"; sleep 0.05; \
+			printf "\b\\\\"; sleep 0.05; \
+		done) & \
+		SPIN_PID=$$!; \
+		$(CC) -o $(NAME) $(OBJ) $(LFLAGS); \
+		kill $$SPIN_PID 2>/dev/null; \
+		wait $$SPIN_PID 2>/dev/null || true; \
+		printf "\b\b$(GREEN)OK!$(DEF_COLOR)\n"'
 
 show:
 	@printf "UNAME		: $(UNAME)\n"
