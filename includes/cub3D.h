@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/17 15:27:51 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/23 11:34:35 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ typedef struct s_infoMaps
 }	t_infoMaps;
 
 void	init_maps(t_infoMaps *data);
+int		valid_args(char**argv, t_infoMaps data);
 
 #endif
