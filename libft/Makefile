@@ -116,11 +116,11 @@ $(OBJS_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@printf "$(RED) Objects cleaned!$(RESET)\n"
+	@printf "$(RED) LIBFT'S Objects cleaned!$(RESET)\n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@printf "$(RED) Executable cleaned!$(RESET)\n"
+	@printf "$(RED) Executable [LIBFT] cleaned!$(RESET)\n"
 
 re: fclean all
 

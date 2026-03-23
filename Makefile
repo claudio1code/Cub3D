@@ -9,7 +9,8 @@ INCS_DIR = includes/
 LIBFT_DIR = libft/
 MLX_DIR = minilibx-linux/
 
-SRCS_LIST = 	
+SRCS_LIST = main.c \
+			parsing/init.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
@@ -60,12 +61,12 @@ clean:
 	@rm -rf $(OBJS_DIR)
 	@make -sC $(LIBFT_DIR) clean
 	@make -sC $(MLX_DIR) clean
-	@printf "$(RED) Objects cleaned!$(RESET)\n"
+	@printf "$(RED) CUB3D'S Objects cleaned!$(RESET)\n"
 
 fclean: clean
 	@rm -f $(NAME)
 	@make -sC $(LIBFT_DIR) fclean
-	@printf "$(RED) Executable cleaned!$(RESET)\n"
+	@printf "$(RED) Executable [CUB3D] cleaned!$(RESET)\n"
 
 re: fclean all
 
