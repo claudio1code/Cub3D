@@ -6,38 +6,39 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 09:55:44 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/03/19 15:46:04 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/03/23 18:03:11 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3D.h"
 
-static void	paint_m(t_win*lmx, int iy, int ix)
-{
-	int			x;
-	int			y;
-	char		*i;
+//119 = w
+//97 = a
+//115 = s
+//100 = d
 
-	x = 64 * ix - 1;
-	while (++x <= (64 * (ix + 1)) - 1)
+#include <stdio.h>
+
+static void	limits(t_win*lmx, int ix, int iy, int k_code)
+{
+	if (k_code == 119 || k_code == 97)
 	{
-		y = 64 * iy - 1;
-		while (++y <= (64 * (iy + 1)) - 1)
-		{
-			i = lmx->addr + (y * lmx->ll + x * (lmx->bpp / 8));
-			if (lmx->matrix[iy][ix] == 1)
-				*(unsigned *)i = 0xFF0000;
-			else
-				*(unsigned *)i = 0x000000;
-			if (x >= 64 *(ix + 1) - 2 || y >= 64 *(iy + 1) - 2
-				|| x <= 1 || y <= 1)
-				*(unsigned *)i = 0x000000;
-			if (x >= lmx->px - 34 && x <= lmx->px - 30
-				&& y >= lmx->py - 34 && y <= lmx->py - 30)
-				*(unsigned *)i = 0x008000;
-		}
+		if (lmx->matrix[iy][(lmx->px - 2) / 64] == 1
+			&& lmx->py / 64 == iy && k_code == 97)
+				lmx->px = (((lmx->px + 63) / 64) * 64) + 2;
+		if (lmx->matrix[(lmx->py - 2) / 64][ix] == 1
+			&& lmx->px / 64 == ix && k_code == 119)
+				lmx->py = (((lmx->py + 63) / 64) * 64) + 2;
 	}
-	mlx_put_image_to_window(lmx->lmx, lmx->win, lmx->img, 0, 0);
+	else if (k_code == 115 || k_code == 100)
+	{
+		if (lmx->matrix[iy][(lmx->px + 2) / 64] == 1
+			&& lmx->py / 64 == iy && k_code == 100)
+				lmx->px = (lmx->px - (lmx->px + 2) % 64) - 2;
+		if (lmx->matrix[(lmx->py + 2) / 64][ix] == 1
+			&& lmx->px / 64 == ix && k_code == 115)
+			lmx->py = (lmx->py - (lmx->py + 2) % 64) - 2;
+	}
 }
 
 static int	close_window(t_win*lmx)
@@ -56,7 +57,33 @@ static int	close_window(t_win*lmx)
 	exit (0);
 }
 
-static void	m_paint(t_win*lmx)
+static void	paint_m(t_win*lmx, int iy, int ix)
+{
+	int			x;
+	int			y;
+	char		*i;
+
+	x = 64 * ix - 1;
+	while (++x <= 64 * (ix + 1))
+	{
+		y = 64 * iy - 1;
+		while (++y <= 64 * (iy + 1))
+		{
+			i = lmx->addr + (y * lmx->ll + x * (lmx->bpp / 8));
+			if (lmx->matrix[iy][ix] == 1 && x >= 1 && y >= 1
+				&& x <= 64 *(ix + 1) - 2 && y <= 64 *(iy + 1) - 2)
+				*(unsigned *)i = 0xFF0000;
+			if (x >= lmx->px - 2 && x <= lmx->px + 2
+				&& y >= lmx->py - 2 && y <= lmx->py + 2
+				&& lmx->matrix[lmx->py / 64][ix] != 1
+				&& lmx->matrix[iy][lmx->px / 64] != 1)
+				*(unsigned *)i = 0x008000;
+		}
+	}
+	mlx_put_image_to_window(lmx->lmx, lmx->win, lmx->img, 0, 0);
+}
+
+static void	m_paint(t_win*lmx, int k_code)
 {
 	int			ix;
 	int			iy;
@@ -69,7 +96,10 @@ static void	m_paint(t_win*lmx)
 	{
 		iy = -1;
 		while (++iy <= 4)
+		{
+			limits(lmx, ix, iy, k_code);
 			paint_m(lmx, iy, ix);
+		}
 	}
 	mlx_put_image_to_window(lmx->lmx, lmx->win, lmx->img, 0, 0);
 }
@@ -78,25 +108,21 @@ static int	key_hooked(int k_code, t_win*lmx)
 {
 	if (k_code == 65307)
 		close_window(lmx);
-	else if (k_code == 119)
+	else if (k_code == 119 || k_code == 97)
 	{
-		lmx->py -= 5;
-		m_paint(lmx);
+		if (k_code == 119)
+			lmx->py -= 5;
+		else
+			lmx->px -= 5;
+		m_paint(lmx, k_code);
 	}
-	else if (k_code == 97)
+	else if (k_code == 115 || k_code == 100)
 	{
-		lmx->px -= 5;
-		m_paint(lmx);
-	}
-	else if (k_code == 115)
-	{
-		lmx->py += 5;
-		m_paint(lmx);
-	}
-	else if (k_code == 100)
-	{
-		lmx->px += 5;
-		m_paint(lmx);
+		if (k_code == 115)
+			lmx->py += 5;
+		else
+			lmx->px += 5;
+		m_paint(lmx, k_code);
 	}
 	return (1);
 }
@@ -108,22 +134,18 @@ static void	paint_i(t_win*lmx, int iy, int ix)
 	char		*i;
 
 	x = 64 * ix - 1;
-	while (++x <= (64 * (ix + 1)) - 1)
+	while (++x <= 64 * (ix + 1))
 	{
 		y = 64 * iy - 1;
-		while (++y <= (64 * (iy + 1)) - 1)
+		while (++y <= 64 * (iy + 1))
 		{
 			i = lmx->addr + (y * lmx->ll + x * (lmx->bpp / 8));
-			if (lmx->matrix[iy][ix] == 1)
-				*(unsigned *)i = 0xFF0000;
-			else
-				*(unsigned *)i = 0x000000;
-			if (lmx->matrix[iy][ix] == 2 && x >= lmx->px - 34
-				&& x <= lmx->px - 30 && y >= lmx->py - 34 && y <= lmx->py - 30)
+			if (lmx->matrix[iy][ix] == 2 && x >= lmx->px - 2
+				&& x <= lmx->px + 2 && y >= lmx->py - 2 && y <= lmx->py + 2)
 				*(unsigned *)i = 0x008000;
-			if (x >= 64 *(ix + 1) - 2 || y >= 64 *(iy + 1) - 2
-				|| x <= 1 || y <= 1)
-				*(unsigned *)i = 0x000000;
+			if (lmx->matrix[iy][ix] == 1 && x >= 1 && y >= 1 &&
+				x <= 64 *(ix + 1) - 2 && y <= 64 *(iy + 1) - 2)
+				*(unsigned *)i = 0xFF0000;
 		}
 	}
 }
@@ -132,6 +154,7 @@ void	game(t_win*lmx)
 {
 	mlx_key_hook(lmx->win, key_hooked, lmx);
 	mlx_hook(lmx->win, 17, 0, close_window, lmx);
+	//mlx_loop_hook();
 	mlx_loop(lmx->lmx);
 }
 
@@ -153,9 +176,9 @@ void	init(t_win*lmx)
 		while (++iy <= 4)
 		{
 			if (lmx->matrix[iy][ix] == 2 && !lmx->px)
-				lmx->px = 64 * (ix + 1);
+				lmx->px = (64 * (ix + 1)) - 32;
 			if (lmx->matrix[iy][ix] == 2 && !lmx->py)
-				lmx->py = 64 * (iy + 1);
+				lmx->py = (64 * (iy + 1)) - 32;
 			paint_i(lmx, ix, iy);
 		}
 	}
@@ -165,15 +188,15 @@ void	init(t_win*lmx)
 
 int	main(int argc, char**argv)
 {
-	t_win	*lmx = malloc(sizeof(t_win));
+	t_win	*lmx;
 	int		c;
 
-	(void)argv;
-	lmx->matrix = malloc(8 * 5);
+	lmx = malloc(sizeof(t_win));
+	lmx->matrix = ft_calloc(5, 8);
 	argc = -1;
-	while (++argc <= 4)
+	while (++argc <= 4 && argv)
 	{
-		lmx->matrix[argc] = malloc(5 * sizeof(float));
+		lmx->matrix[argc] = ft_calloc(5, sizeof(float));
 		c = -1;
 		while (++c <= 4)
 		{
