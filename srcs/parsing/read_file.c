@@ -1,42 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_args.c                                       :+:      :+:    :+:   */
+/*   read_file.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/16 11:27:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/23 11:35:52 by clados-s         ###   ########.fr       */
+/*   Created: 2026/03/23 13:07:56 by clados-s          #+#    #+#             */
+/*   Updated: 2026/03/23 14:48:24 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int	valid(char**argv, t_infoMaps data)
+static t_list	*loop_read(char *line, int fd)
 {
-	t_list		*head;
-	t_list		*new_node;
-	int			fd;
-	char		*content;
+	t_list	*new_node;
+	t_list	*head;
 
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-	{
-		(void)write(2, "Error\nCould not open file.\n", 28);
-		return (1);
-	}
-	init_maps(&data);
 	head = NULL;
-	while ((content = get_next_line(fd)))
+	while (line)
 	{
-		new_node = ft_lstnew(content);
+		new_node = ft_lstnew(line);
 		if (!new_node)
 		{
-			free(content);
-			break;
+			free(line);
+			ft_lstclear(&head, free);
+			break ;
 		}
 		ft_lstadd_back(&head, new_node);
+		line = get_next_line(fd);
 	}
 	close(fd);
-	return (0);
+	return (head);
+}
+
+
+t_list	*read_cub_file(char *filename)
+{
+	int		fd;
+	char	*line;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
+		ft_printf("Error\nCould not open file.\n");
+		return (NULL);
+	}
+	line = get_next_line(fd);
+	return (loop_read(line, fd));
 }

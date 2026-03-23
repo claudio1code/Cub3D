@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/16 17:14:53 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/23 14:56:41 by clados-s         ###   ########.fr       */
+/*   Created: 2026/03/16 11:27:33 by clados-s          #+#    #+#             */
+/*   Updated: 2026/03/23 14:48:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int main(int argc, char **argv)
+int	validate_args(int argc, char **argv)
 {
-	t_infoMaps	data;
-	t_list		*file_content;
+	int len;
 
-	if (!validate_args(argc, argv))
-		return (1);
-	init_maps(&data);
-	file_content = read_cub_file(argv[1]);
-	if (!file_content)
-		return (1);
-	ft_lstclear(&file_content, free);
-	return (0);
+	if (argc != 2)
+	{
+		(void)write(2, "Error\nInvalid number of arguments.\n", 36);
+		return (0);
+	}
+	len = ft_strlen(argv[1]);
+	if (len < 4 || ft_strncmp(&argv[1][len - 4], ".cub", 4) != 0)
+	{
+		(void)write(2, "Error\nFile must have a .cub extension.\n", 40);
+		return (0);
+	}
+	return (1);
 }
