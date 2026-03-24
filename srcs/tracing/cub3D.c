@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 09:55:44 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/03/23 18:03:11 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/03/24 14:32:34 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,24 @@
 
 #include <stdio.h>
 
-static void	limits(t_win*lmx, int ix, int iy, int k_code)
+static void	limits(t_win*lmx)
 {
-	if (k_code == 119 || k_code == 97)
-	{
-		if (lmx->matrix[iy][(lmx->px - 2) / 64] == 1
-			&& lmx->py / 64 == iy && k_code == 97)
-				lmx->px = (((lmx->px + 63) / 64) * 64) + 2;
-		if (lmx->matrix[(lmx->py - 2) / 64][ix] == 1
-			&& lmx->px / 64 == ix && k_code == 119)
-				lmx->py = (((lmx->py + 63) / 64) * 64) + 2;
-	}
-	else if (k_code == 115 || k_code == 100)
-	{
-		if (lmx->matrix[iy][(lmx->px + 2) / 64] == 1
-			&& lmx->py / 64 == iy && k_code == 100)
-				lmx->px = (lmx->px - (lmx->px + 2) % 64) - 2;
-		if (lmx->matrix[(lmx->py + 2) / 64][ix] == 1
-			&& lmx->px / 64 == ix && k_code == 115)
-			lmx->py = (lmx->py - (lmx->py + 2) % 64) - 2;
-	}
+	if (lmx->w)
+		lmx->py -= 2;
+	if (lmx->a)
+		lmx->px -= 2;
+	if (lmx->s)
+		lmx->py += 2;
+	if (lmx->d)
+		lmx->px += 2;
+	if (lmx->matrix[lmx->py / 64][(lmx->px - 2) / 64] == 1 && lmx->a)
+		lmx->px = (((lmx->px + 63) / 64) * 64) + 2;
+	if (lmx->matrix[(lmx->py - 2) / 64][lmx->px / 64] == 1 && lmx->w)
+		lmx->py = (((lmx->py + 63) / 64) * 64) + 2;
+	if (lmx->matrix[lmx->py / 64][(lmx->px + 2) / 64] == 1 && lmx->d)
+		lmx->px = (lmx->px - (lmx->px + 2) % 64) - 2;
+	if (lmx->matrix[(lmx->py + 2) / 64][lmx->px / 64] == 1 && lmx->s)
+		lmx->py = (lmx->py - (lmx->py + 2) % 64) - 2;
 }
 
 static int	close_window(t_win*lmx)
@@ -71,8 +69,12 @@ static void	paint_m(t_win*lmx, int iy, int ix)
 		{
 			i = lmx->addr + (y * lmx->ll + x * (lmx->bpp / 8));
 			if (lmx->matrix[iy][ix] == 1 && x >= 1 && y >= 1
-				&& x <= 64 *(ix + 1) - 2 && y <= 64 *(iy + 1) - 2)
+				&& x <= 64 *(ix + 1) - 2 && y <= 64 *(iy + 1) - 2
+				&& x <= lmx->px + 128 && x >= lmx->px - 128
+				&& y <= lmx->py + 128 && y >= lmx->py - 128)
 				*(unsigned *)i = 0xFF0000;
+			else
+				*(unsigned *)i = 0x000000;
 			if (x >= lmx->px - 2 && x <= lmx->px + 2
 				&& y >= lmx->py - 2 && y <= lmx->py + 2
 				&& lmx->matrix[lmx->py / 64][ix] != 1
@@ -80,50 +82,59 @@ static void	paint_m(t_win*lmx, int iy, int ix)
 				*(unsigned *)i = 0x008000;
 		}
 	}
-	mlx_put_image_to_window(lmx->lmx, lmx->win, lmx->img, 0, 0);
 }
 
-static void	m_paint(t_win*lmx, int k_code)
+static int	m_paint(void*lm)
 {
 	int			ix;
 	int			iy;
+	t_win		*lmx;
 
-	mlx_destroy_image(lmx->lmx, lmx->img);
-	lmx->img = mlx_new_image(lmx->lmx, 1920, 1920);
-	lmx->addr = mlx_get_data_addr(lmx->img, &lmx->bpp, &lmx->ll, &lmx->endian);
+	lmx = (t_win *)lm;
+	if (!lmx->w && !lmx->a && !lmx->s && !lmx->d)
+		return (0);
 	ix = -1;
+	limits(lmx);
 	while (++ix <= 4)
 	{
 		iy = -1;
 		while (++iy <= 4)
 		{
-			limits(lmx, ix, iy, k_code);
 			paint_m(lmx, iy, ix);
 		}
 	}
 	mlx_put_image_to_window(lmx->lmx, lmx->win, lmx->img, 0, 0);
+	ix = 0;
+	while (ix != 20050000)
+		ix++;
+	return (1);
 }
 
-static int	key_hooked(int k_code, t_win*lmx)
+static int	key_release(int k_code, t_win*lmx)
 {
 	if (k_code == 65307)
 		close_window(lmx);
-	else if (k_code == 119 || k_code == 97)
-	{
-		if (k_code == 119)
-			lmx->py -= 5;
-		else
-			lmx->px -= 5;
-		m_paint(lmx, k_code);
-	}
-	else if (k_code == 115 || k_code == 100)
-	{
-		if (k_code == 115)
-			lmx->py += 5;
-		else
-			lmx->px += 5;
-		m_paint(lmx, k_code);
-	}
+	if (k_code == 119)
+		lmx->w = 0;
+	else if (k_code == 97)
+		lmx->a = 0;
+	else if (k_code == 115)
+		lmx->s = 0;
+	else if (k_code == 100)
+		lmx->d = 0;
+	return (1);
+}
+
+static int	key_press(int k_code, t_win*lmx)
+{
+	if (k_code == 119)
+		lmx->w = 1;
+	else if (k_code == 97)
+		lmx->a = 1;
+	else if (k_code == 115)
+		lmx->s = 1;
+	else if (k_code == 100)
+		lmx->d = 1;
 	return (1);
 }
 
@@ -152,9 +163,10 @@ static void	paint_i(t_win*lmx, int iy, int ix)
 
 void	game(t_win*lmx)
 {
-	mlx_key_hook(lmx->win, key_hooked, lmx);
 	mlx_hook(lmx->win, 17, 0, close_window, lmx);
-	//mlx_loop_hook();
+	mlx_hook(lmx->win, 2, 1L << 0, key_press, lmx);
+	mlx_hook(lmx->win, 3, 1L << 1, key_release, lmx);
+	mlx_loop_hook(lmx->lmx, m_paint, lmx);
 	mlx_loop(lmx->lmx);
 }
 
