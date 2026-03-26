@@ -12,7 +12,9 @@ MLX_DIR = minilibx-linux/
 SRCS_LIST = main.c \
 			parsing/init.c \
 			parsing/validation.c \
-			parsing/read_file.c
+			parsing/read_file.c \
+			parsing/parser_color.c \
+			parsing/parser_elements.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

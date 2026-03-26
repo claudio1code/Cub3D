@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/23 14:49:03 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/25 16:54:49 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ void	init_maps(t_infoMaps *data);
 int		main(int argc, char **argv);
 int		validate_args(int argc, char **argv);
 t_list	*read_cub_file(char *filename);
+int		parser_elements(char *line, t_infoMaps *data);
+int		get_color(char *line, int *color_ptr);
 
 #endif

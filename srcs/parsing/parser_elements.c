@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:25:16 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/25 10:23:59 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/26 10:33:45 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int	skip_spaces(char *line)
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	return (i);
-	
 }
 
 static int	get_texture(char *line, char **texture)
@@ -28,7 +27,7 @@ static int	get_texture(char *line, char **texture)
 	int	start;
 	int	end;
 
-	if (!*texture != NULL)
+	if (*texture != NULL)
 		return (0);
 	start = 2;
 	start += skip_spaces(&line[start]);
@@ -41,20 +40,30 @@ static int	get_texture(char *line, char **texture)
 	return (1);
 }
 
-int  parser_elements(char *line, t_infoMaps *data)
+int	parser_elements(char *line, t_infoMaps *data)
 {
 	int	i;
 
 	i = skip_spaces(line);
 	if (line[i] == '\n' || line[i] == '\0')
 		return (1);
-	if (!(ft_strncmp(&line[i], "NO", 2)) && (line[i + 2] == ' ' || line[i + 2] == '\t'))
+	if (!(ft_strncmp(&line[i], "NO", 2)) && (line[i + 2] == ' '
+			|| line[i + 2] == '\t'))
 		return (get_texture(&line[i], &data->no_texture));
-	if (!(ft_strncmp(&line[i], "SO", 2)) && (line[i + 2] == ' ' || line[i + 2] == '\t'))
+	if (!(ft_strncmp(&line[i], "SO", 2)) && (line[i + 2] == ' '
+			|| line[i + 2] == '\t'))
 		return (get_texture(&line[i], &data->so_texture));
-	if (!(ft_strncmp(&line[i], "WE", 2)) && (line[i + 2] == ' ' || line[i + 2] == '\t'))
+	if (!(ft_strncmp(&line[i], "WE", 2)) && (line[i + 2] == ' '
+			|| line[i + 2] == '\t'))
 		return (get_texture(&line[i], &data->we_texture));
-	if (!(ft_strncmp(&line[i], "EA", 2)) && (line[i + 2] == ' ' || line[i + 2] == '\t'))
+	if (!(ft_strncmp(&line[i], "EA", 2)) && (line[i + 2] == ' '
+			|| line[i + 2] == '\t'))
 		return (get_texture(&line[i], &data->ea_texture));
+	if (ft_strncmp(&line[i], "F", 1) == 0 && (line[i + 1] == ' '
+			|| line[i + 1] == '\t'))
+		return (get_color(&line[i + 1], &data->floor_color));
+	if (ft_strncmp(&line[i], "C", 1) == 0 && (line[i + 1] == ' '
+			|| line[i + 1] == '\t'))
+		return (get_color(&line[i + 1], &data->ceiling_color));
 	return (0);
 }

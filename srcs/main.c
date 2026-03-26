@@ -6,13 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:14:53 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/23 14:56:41 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/26 10:51:35 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_infoMaps	data;
 	t_list		*file_content;
