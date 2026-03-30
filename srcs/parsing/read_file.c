@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:07:56 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 10:27:06 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:00:48 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_list	*loop_read(char *line, int fd)
 		if (!new_node)
 		{
 			free(line);
-			ft_lstclear(&head, free);
+			ft_lstclear(&head, free, 0);
 			break ;
 		}
 		ft_lstadd_back(&head, new_node);

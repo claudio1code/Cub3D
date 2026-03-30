@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 11:43:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 11:45:03 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 12:38:42 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	extract_map(t_list *map_start, t_infoMaps *data)
 	if (data->width == 0 || data->height == 0)
 		return (0);
 	data->grid = malloc(sizeof(char *) * (data->height + 1));
-	if (data->grid)
+	if (!data->grid)
 		return (0);
 	i = 0;
 	while (map_start)
@@ -91,5 +91,5 @@ int	extract_map(t_list *map_start, t_infoMaps *data)
 		map_start = map_start->next;
 	}
 	data->grid[i] = NULL;
-	retrun (1);
+	return (1);
 }

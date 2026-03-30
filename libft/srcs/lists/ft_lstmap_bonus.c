@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 14:03:36 by clados-s          #+#    #+#             */
-/*   Updated: 2025/07/31 14:54:46 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:02:31 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		temp = ft_lstnew(f(lst->next->content));
 		if (!temp)
 		{
-			ft_lstclear(&new, del);
+			ft_lstclear(&new, del, 0);
 			return (NULL);
 		}
 		lst = lst->next;

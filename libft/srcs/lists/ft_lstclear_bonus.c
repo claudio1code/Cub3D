@@ -6,19 +6,19 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/31 12:05:55 by clados-s          #+#    #+#             */
-/*   Updated: 2025/07/31 13:49:54 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 13:21:25 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void*))
+int	ft_lstclear(t_list **lst, void (*del)(void*), int r)
 {
 	t_list	*temp;
 	t_list	*actualy;
 
 	if (!del || !*lst)
-		return ;
+		return (r);
 	actualy = *lst;
 	temp = actualy->next;
 	while (actualy && actualy->next)
@@ -32,4 +32,5 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 		ft_lstdelone(actualy, del);
 	}
 	*lst = NULL;
+	return (r);
 }

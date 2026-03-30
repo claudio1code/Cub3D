@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:48:06 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/03/30 12:57:42 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ typedef struct s_list
 }	t_list;
 
 t_list			*ft_lstnew(void *content);
-void			ft_lstadd_front(t_list **lst, t_list *new);
-int				ft_lstsize(t_list *lst);
 t_list			*ft_lstlast(t_list *lst);
+int				ft_lstsize(t_list *lst);
+int				ft_lstclear(t_list **lst, void (*del)(void*), int r);
+void			ft_lstadd_front(t_list **lst, t_list *new);
 void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void*));
-void			ft_lstclear(t_list **lst, void (*del)(void*));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
