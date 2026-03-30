@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 13:07:56 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/23 14:48:24 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 10:27:06 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ t_list	*read_cub_file(char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 	{
-		ft_printf("Error\nCould not open file.\n");
+		printf("Error\nCould not open file.\n");
 		return (NULL);
 	}
 	line = get_next_line(fd);
