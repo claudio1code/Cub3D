@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 12:46:15 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 16:57:19 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ int		parser_elements(char *line, t_infoMaps *data);
 int		get_color(char *line, int *color_ptr);
 int		validate_map_char(t_infoMaps *data);
 int		extract_map(t_list *map_start, t_infoMaps *data);
+int		validate_wall(t_infoMaps *data);
 
 #endif

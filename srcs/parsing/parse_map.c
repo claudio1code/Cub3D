@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 11:43:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 12:38:42 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:58:02 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	fill_row(char *grid_row, char *line, int width)
 	}
 	while (i < width)
 	{
-		grid_row[i] = line[i];
+		grid_row[i] = ' ';
 		i++;
 	}
 	grid_row[width] = '\0';

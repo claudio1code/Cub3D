@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:41:07 by clados-s          #+#    #+#             */
-/*   Updated: 2025/12/04 15:35:17 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:40:01 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	bytes_buffer = 1;
-	while (!ft_strchr(rest, '\n') && bytes_buffer > 0)
+	while ((!rest || !ft_strchr(rest, '\n')) && bytes_buffer > 0)
 	{
 		bytes_buffer = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_buffer == -1)

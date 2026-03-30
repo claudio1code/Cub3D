@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:14:53 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 14:00:21 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 16:54:22 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	extract_confs(t_list **lst, t_infoMaps *data)
 		if (data->no_texture && data->so_texture && data->ea_texture
 			&& data->we_texture && data->ceiling_color != -1
 			&& data->floor_color != -1)
-			break ;
+			return (1);
 		if (!parser_elements((char *)(*lst)->content, data))
 		{
 			printf("Error\nInvalid configuration element.\n");
@@ -32,6 +32,8 @@ static int	extract_confs(t_list **lst, t_infoMaps *data)
 
 static int	parse_core(t_list *lst, t_infoMaps *data)
 {
+	if (!lst)
+		return (0);
 	if (!extract_confs(&lst, data))
 		return (0);
 	lst = find_map_start(lst);
@@ -43,6 +45,11 @@ static int	parse_core(t_list *lst, t_infoMaps *data)
 	if (!validate_map_char(data))
 	{
 		printf("Error\nInvalid map characters or wrong number of players.\n");
+		return (0);
+	}
+	if (!validate_wall(data))
+	{
+		printf("Error\nMap is not enclosed by walls (Leak detected).\n");
 		return (0);
 	}
 	return (1);

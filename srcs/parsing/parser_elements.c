@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/23 15:25:16 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/26 10:33:45 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/30 14:20:52 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ int	parser_elements(char *line, t_infoMaps *data)
 	if (ft_strncmp(&line[i], "C", 1) == 0 && (line[i + 1] == ' '
 			|| line[i + 1] == '\t'))
 		return (get_color(&line[i + 1], &data->ceiling_color));
-	return (0);
+	return (1);
 }
