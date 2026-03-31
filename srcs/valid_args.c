@@ -1,37 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   valid_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 14:03:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/31 11:53:01 by clados-s         ###   ########.fr       */
+/*   Created: 2026/03/16 11:27:33 by clados-s          #+#    #+#             */
+/*   Updated: 2026/03/16 11:27:57 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
-{
-	t_list	*new;
-	t_list	*temp;
-
-	if (!lst || !f || !del)
-		return (NULL);
-	new = ft_lstnew(f(lst->content));
-	if (!new)
-		return (NULL);
-	while (lst->next && lst)
-	{
-		temp = ft_lstnew(f(lst->next->content));
-		if (!temp)
-		{
-			ft_lstclear(&new, del, 0);
-			return (NULL);
-		}
-		lst = lst->next;
-		ft_lstadd_back(&new, temp);
-	}
-	return (new);
-}
