@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 09:55:44 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/03/31 12:56:17 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/01 14:00:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,6 +421,11 @@ void	init_game(t_infoMaps *data)
 	lmx = malloc(sizeof(t_win));
 	lmx->map_data = data;
 	lmx->lmx = mlx_init();
+	if (!init_textures(lmx))
+	{
+
+		exit(1);
+	}
 	lmx->win = mlx_new_window(lmx->lmx, 1920, 1024, "cub3D");
 	lmx->img = mlx_new_image(lmx->lmx, 1920, 1024);
 	lmx->addr = mlx_get_data_addr(lmx->img, &lmx->bpp, &lmx->ll, &lmx->endian);

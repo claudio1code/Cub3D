@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 16:23:29 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/31 14:39:23 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/01 10:26:28 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ static int	count_comma(char *line)
 	i = 0;
 	count = 0;
 	while (line[i])
+	{
 		if (line[i] == ',')
 			count++;
 		i++;
+	}
 	return (count);
 }
 
