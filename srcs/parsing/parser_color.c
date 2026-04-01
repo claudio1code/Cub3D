@@ -6,13 +6,13 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/25 16:23:29 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 14:47:14 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/31 14:39:23 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-static int	aux_split(char *line)
+static int	count_comma(char *line)
 {
 	int	i;
 	int	count;
@@ -20,11 +20,9 @@ static int	aux_split(char *line)
 	i = 0;
 	count = 0;
 	while (line[i])
-	{
 		if (line[i] == ',')
 			count++;
 		i++;
-	}
 	return (count);
 }
 
@@ -62,7 +60,7 @@ int	get_color(char *line, int *color_ptr)
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
-	if (aux_split(&line[i]) != 2)
+	if (count_comma(&line[i]) != 2)
 		return (0);
 	rgb = ft_split(&line[i], ',');
 	if (!rgb)

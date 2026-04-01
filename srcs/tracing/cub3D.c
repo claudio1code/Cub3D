@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 09:55:44 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/03/30 18:12:01 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/03/31 12:56:17 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ static void	draw_background(t_win *lmx)
 			dst = (unsigned int *)(lmx->addr
 					+ (y * lmx->ll + x * (lmx->bpp / 8)));
 			if (y < 1024 / 2)
-				*dst = 0x333333;
+				*dst = lmx->map_data->ceiling_color;
 			else
-				*dst = 0x777777;
+				*dst = lmx->map_data->floor_color;
 		}
 	}
 }
@@ -84,6 +84,10 @@ static void	rays(t_win*lmx, int r, float ra, float ratan)
 	c = -1;
 	while (++c < r)
 	{
+		rx = 0;
+		ry = 0;
+		xo = 0;
+		yo = 0;
 		ratan = -1 / tan(ra);
 		lmx->atan = ratan;
 		if (lmx->atan > 100)
@@ -114,10 +118,10 @@ static void	rays(t_win*lmx, int r, float ra, float ratan)
 		}
 		while (1)
 		{
-			if ((int)ry >> 6 >= lmx->matrix_s || (int)rx >> 6 >= lmx->matrix_s
+			if ((int)ry >> 6 >= lmx->map_data->height || (int)rx >> 6 >= lmx->map_data->width
 				|| (int)rx >> 6 < 0 || (int)ry >> 6 < 0)
 				break ;
-			if (lmx->matrix[(int)ry >> 6][(int)rx >> 6] == 1)
+			if (lmx->map_data->grid[(int)ry >> 6][(int)rx >> 6] == '1')
 			{	
 				lmx->d_h = dist(lmx->px, lmx->py, rx, ry);
 				lmx->hx = rx;
@@ -160,10 +164,10 @@ static void	rays(t_win*lmx, int r, float ra, float ratan)
 		}
 		while (1)
 		{
-			if ((int)ry >> 6 >= lmx->matrix_s || (int)rx >> 6 >= lmx->matrix_s
+			if ((int)ry >> 6 >= lmx->map_data->height || (int)rx >> 6 >= lmx->map_data->width
 				|| (int)rx >> 6 < 0 || (int)ry >> 6 < 0)
 				break ;
-			if (lmx->matrix[(int)ry >> 6][(int)rx >> 6] == 1)
+			if (lmx->map_data->grid[(int)ry >> 6][(int)rx >> 6] == '1')
 			{
 				lmx->d_v = dist(lmx->px, lmx->py, rx, ry);
 				lmx->vx = rx;
@@ -230,11 +234,11 @@ static void	movement(t_win*lmx)
 
 static void	limits(t_win*lmx)
 {
-	if (lmx->matrix[(int)lmx->py / 64][(int)lmx->px / 64] == 1)
+	if (lmx->map_data->grid[(int)lmx->py / 64][(int)lmx->px / 64] == '1')
 	{
-		if (lmx->matrix[(int)lmx->oldpy / 64][(int)lmx->px / 64] != 1)
+		if (lmx->map_data->grid[(int)lmx->oldpy / 64][(int)lmx->px / 64] != '1')
 			lmx->py = lmx->oldpy;
-		else if (lmx->matrix[(int)lmx->py / 64][(int)lmx->oldpx / 64] != 1)
+		else if (lmx->map_data->grid[(int)lmx->py / 64][(int)lmx->oldpx / 64] != '1')
 			lmx->px = lmx->oldpx;
 		else
 		{
@@ -359,10 +363,10 @@ static void	paint_m(t_win*lmx, float iy, float ix, char*i)
 			if (x_m < 0 || x_m > 320 || y_m < 0 || y_m > 320)
 				continue ;
 			i = lmx->addr + ((int)y_m * lmx->ll + (int)x_m * (lmx->bpp / 8));
-			if (lmx->matrix[(int)iy][(int)ix] == 1)
+			if (lmx->map_data->grid[(int)iy][(int)ix] == '1')
 				*(unsigned *)i = 0xFF0000;
-			else if (lmx->matrix[(int)iy][(int)ix] == 0
-				|| lmx->matrix[(int)iy][(int)ix] == 2)
+			else if (lmx->map_data->grid[(int)iy][(int)ix] == '0'
+				|| lmx->map_data->grid[(int)iy][(int)ix] == '2')
 				*(unsigned *)i = 0x333333;
 			if (x_m >= 158 && x_m <= 162 && y_m >= 158 && y_m <= 162)
 				*(unsigned *)i = 0x00FF00;
@@ -394,9 +398,9 @@ void	init(t_win*lmx, float ix, float iy)
 		iy = -1;
 		while (++iy <= 4)
 		{
-			if (lmx->matrix[(int)iy][(int)ix] == 2)
+			if (lmx->map_data->grid[(int)iy][(int)ix] == '2')
 				lmx->px = (64 * (ix + 1)) - 32;
-			if (lmx->matrix[(int)iy][(int)ix] == 2)
+			if (lmx->map_data->grid[(int)iy][(int)ix] == '2')
 				lmx->py = (64 * (iy + 1)) - 32;
 		}
 	}
@@ -410,31 +414,27 @@ void	init(t_win*lmx, float ix, float iy)
 	game(lmx);
 }
 
-int	main(int argc, char**argv)
+void	init_game(t_infoMaps *data)
 {
 	t_win	*lmx;
-	int		c;
 
 	lmx = malloc(sizeof(t_win));
-	lmx->matrix = ft_calloc(5, 8);
-	argc = -1;
-	lmx->matrix_s = 5;
-	while (++argc <= 4 && argv)
-	{
-		lmx->matrix[argc] = ft_calloc(5, sizeof(float));
-		c = -1;
-		while (++c <= 4)
-		{
-			if (!argc || argc == 4)
-				lmx->matrix[argc][c] = 1;
-			else if (!c || c == 4 || (argc == 2 && c == 2))
-				lmx->matrix[argc][c] = 1;
-			else if (c == 1 && argc == 3)
-				lmx->matrix[argc][c] = 2;
-			else
-				lmx->matrix[argc][c] = 0;
-		}
-	}
-	init(lmx, -1, -1);
-	return (0);
+	lmx->map_data = data;
+	lmx->lmx = mlx_init();
+	lmx->win = mlx_new_window(lmx->lmx, 1920, 1024, "cub3D");
+	lmx->img = mlx_new_image(lmx->lmx, 1920, 1024);
+	lmx->addr = mlx_get_data_addr(lmx->img, &lmx->bpp, &lmx->ll, &lmx->endian);
+	lmx->px = (data->p_x * 64) + 32;
+	lmx->py = (data->p_y * 64) + 32;
+	if (data->p_dir == 'E')
+		lmx->pa = 0.0;
+	else if (data->p_dir == 'S')
+		lmx->pa = PI / 2.0;
+	else if (data->p_dir == 'W')
+		lmx->pa = PI;
+	else if (data->p_dir == 'N')
+		lmx->pa = (3.0 * PI) / 2.0;
+	lmx->pdx = cos(lmx->pa) * 5;
+	lmx->pdy = sin(lmx->pa) * 5;
+	game(lmx);
 }

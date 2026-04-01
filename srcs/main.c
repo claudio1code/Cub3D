@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:14:53 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 16:54:22 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/03/31 12:37:33 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	main(int argc, char **argv)
 		return (1);
 	if (!parse_core(file, &data))
 		return (ft_lstclear(&file, free, 1));
-	printf("Sucesso: Mapa valido ate agora! Jogador no X:%f, Y:%f\n",
-		data.p_x, data.p_y);
+	init_game(&data);
 	return (ft_lstclear(&file, free, 0));
 }
