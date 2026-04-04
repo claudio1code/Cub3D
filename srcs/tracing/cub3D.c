@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ftlurker <ftlurker@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 09:55:44 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/03/30 18:12:01 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/04/04 16:30:06 by ftlurker         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,143 @@ static float	dist(float ax, float ay, float bx, float by)
 	return (sqrt((bx - ax) * (bx - ax) + (by - ay) * (by - ay)));
 }
 
+static void	ray_x(t_win*lmx, float*ra, float ratan)
+{
+	ratan = -1 / tan(*ra);
+	lmx->atan = ratan;
+	if (lmx->atan > 100)
+		lmx->atan = 100;
+	if (lmx->atan < -100)
+		lmx->atan = -100;
+	lmx->d_h = 1000000;
+	lmx->hx = lmx->px;
+	lmx->hy = lmx->py;
+	if (*ra > PI)
+	{
+		lmx->ry = (((int)lmx->py >> 6) << 6) - 0.0001;
+		lmx->rx = (lmx->py - lmx->ry) * *ratan + lmx->px;
+		yo = -64;
+		xo = -yo * ratan;
+	}
+	if (*ra < PI)
+	{
+		lmx->ry = (((int)lmx->py >> 6) << 6) + 64 + 0.0001;
+		lmx->rx = (lmx->py - lmx->ry) * ratan + lmx->px;
+		yo = 64;
+		xo = -yo * ratan;
+	}
+	ray_x2(lmx, ra, ratan);
+}
+
+static void	ray_x2(t_win*lmx, float*ra, float ratan)
+{
+	if (*ra < 0.001 || fabs(*ra - PI) < 0.001)
+	{
+		lmx->rx = lmx->px;
+		lmx->ry = lmx->py;
+	}
+	while (1)
+	{
+		if ((int)lmx->ry >> 6 >= lmx->matrix_s || (int)lmx->rx >> 6 >= lmx->matrix_s
+			|| (int)lmx->rx >> 6 < 0 || (int)lmx->ry >> 6 < 0)
+			break ;
+		if (lmx->matrix[(int)lmx->ry >> 6][(int)lmx->rx >> 6] == 1)
+		{	
+			lmx->d_h = dist(lmx->px, lmx->py, lmx->rx, lmx->ry);
+			lmx->hx = lmx->rx;
+			lmx->hy = lmx->ry;
+			break ;
+		}
+		else
+		{
+			lmx->rx += xo;
+			lmx->ry += yo;
+		}
+	}
+}
+
+static void	ray_y(t_win*lmx, float*ra, float ratan)
+{
+	ratan = tan(*ra);
+	lmx->atan = ratan;
+	if (lmx->atan > 100)
+		lmx->atan = 100;
+	if (lmx->atan < -100)
+		lmx->atan = -100;
+	lmx->d_v = 1000000;
+	lmx->vx = lmx->px;
+	lmx->vy = lmx->py;
+	if (*ra > PI / 2 && *ra < 3 * PI / 2)
+	{
+		lmx->rx = (((int)lmx->px >> 6) << 6) - 0.0001;
+		lmx->ry = (lmx->rx - lmx->px) * ratan + lmx->py;
+		xo = -64;
+		yo = xo * ratan;
+	}
+	if (*ra < PI / 2 || *ra > 3 * PI / 2)
+	{
+		lmx->rx = (((int)lmx->px >> 6) << 6) + 64 + 0.0001;
+		lmx->ry = (lmx->rx - lmx->px) * ratan + lmx->py;
+		xo = 64;
+		yo = xo * ratan;
+	}
+	ray_y2(lmx, ra, ratan);
+}
+
+static void	ray_y2(t_win*lmx, float*ra, float ratan)
+{
+	if (*ra < 0.001 || fabs(*ra - PI) < 0.001)
+	{
+		lmx->rx = lmx->px;
+		lmx->ry = lmx->py;
+	}
+	while (1)
+	{
+		if ((int)lmx->ry >> 6 >= lmx->matrix_s || (int)lmx->rx >> 6 >= lmx->matrix_s
+			|| (int)lmx->rx >> 6 < 0 || (int)lmx->ry >> 6 < 0)
+			break ;
+		if (lmx->matrix[(int)lmx->ry >> 6][(int)lmx->rx >> 6] == 1)
+		{
+			lmx->d_v = dist(lmx->px, lmx->py, lmx->rx, lmx->ry);
+			lmx->vx = lmx->rx;
+			lmx->vy = lmx->ry;
+			break ;
+		}
+		else
+		{
+			lmx->rx += xo;
+			lmx->ry += yo;
+		}
+	}
+}
+
+static void	draw_ray(t_win*lmx, float ra)
+{
+	if (lmx->d_v < lmx->d_h)
+	{
+		lmx->d_t = dist(lmx->px, lmx->py, lmx->vx, lmx->vy) * cos(ra - lmx->pa);
+		if (lmx->d_t < 0.1)
+			lmx->d_t = 0.1;
+		lmx->l_h = (64 * 1024) / lmx->d_t;
+		if (lmx->l_h > 1024)
+			lmx->l_h = 1024;
+		draw_line(lmx, c, lmx->l_h, 1);
+	}
+	else
+	{
+		lmx->d_t = dist(lmx->px, lmx->py, lmx->hx, lmx->hy) * cos(ra - lmx->pa);
+		if (lmx->d_t < 0.1)
+			lmx->d_t = 0.1;
+		lmx->l_h = (64 * 1024) / lmx->d_t;
+		if (lmx->l_h > 1024)
+			lmx->l_h = 1024;
+		draw_line(lmx, c, lmx->l_h, 0);
+	}
+}
+
 static void	rays(t_win*lmx, int r, float ra, float ratan)
 {
 	int		c;
-	float	rx;
-	float	ry;
 	float	xo;
 	float	yo;
 
@@ -84,118 +216,9 @@ static void	rays(t_win*lmx, int r, float ra, float ratan)
 	c = -1;
 	while (++c < r)
 	{
-		ratan = -1 / tan(ra);
-		lmx->atan = ratan;
-		if (lmx->atan > 100)
-			lmx->atan = 100;
-		if (lmx->atan < -100)
-			lmx->atan = -100;
-		lmx->d_h = 1000000;
-		lmx->hx = lmx->px;
-		lmx->hy = lmx->py;
-		if (ra > PI)
-		{
-			ry = (((int)lmx->py >> 6) << 6) - 0.0001;
-			rx = (lmx->py - ry) * ratan + lmx->px;
-			yo = -64;
-			xo = -yo * ratan;
-		}
-		if (ra < PI)
-		{
-			ry = (((int)lmx->py >> 6) << 6) + 64 + 0.0001;
-			rx = (lmx->py - ry) * ratan + lmx->px;
-			yo = 64;
-			xo = -yo * ratan;
-		}
-		if (ra < 0.001 || fabs(ra - PI) < 0.001)
-		{
-			rx = lmx->px;
-			ry = lmx->py;
-		}
-		while (1)
-		{
-			if ((int)ry >> 6 >= lmx->matrix_s || (int)rx >> 6 >= lmx->matrix_s
-				|| (int)rx >> 6 < 0 || (int)ry >> 6 < 0)
-				break ;
-			if (lmx->matrix[(int)ry >> 6][(int)rx >> 6] == 1)
-			{	
-				lmx->d_h = dist(lmx->px, lmx->py, rx, ry);
-				lmx->hx = rx;
-				lmx->hy = ry;
-				break ;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-			}
-		}
-		ratan = tan(ra);
-		lmx->atan = ratan;
-		if (lmx->atan > 100)
-			lmx->atan = 100;
-		if (lmx->atan < -100)
-			lmx->atan = -100;
-		lmx->d_v = 1000000;
-		lmx->vx = lmx->px;
-		lmx->vy = lmx->py;
-		if (ra > PI / 2 && ra < 3 * PI / 2)
-		{
-			rx = (((int)lmx->px >> 6) << 6) - 0.0001;
-			ry = (rx - lmx->px) * ratan + lmx->py;
-			xo = -64;
-			yo = xo * ratan;
-		}
-		if (ra < PI / 2 || ra > 3 * PI / 2)
-		{
-			rx = (((int)lmx->px >> 6) << 6) + 64 + 0.0001;
-			ry = (rx - lmx->px) * ratan + lmx->py;
-			xo = 64;
-			yo = xo * ratan;
-		}
-		if (ra < 0.001 || fabs(ra - PI) < 0.001)
-		{
-			rx = lmx->px;
-			ry = lmx->py;
-		}
-		while (1)
-		{
-			if ((int)ry >> 6 >= lmx->matrix_s || (int)rx >> 6 >= lmx->matrix_s
-				|| (int)rx >> 6 < 0 || (int)ry >> 6 < 0)
-				break ;
-			if (lmx->matrix[(int)ry >> 6][(int)rx >> 6] == 1)
-			{
-				lmx->d_v = dist(lmx->px, lmx->py, rx, ry);
-				lmx->vx = rx;
-				lmx->vy = ry;
-				break ;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-			}
-		}
-		if (lmx->d_v < lmx->d_h)
-		{
-			lmx->d_t = dist(lmx->px, lmx->py, lmx->vx, lmx->vy) * cos(ra - lmx->pa);
-			if (lmx->d_t < 0.1)
-				lmx->d_t = 0.1;
-			lmx->l_h = (64 * 1024) / lmx->d_t;
-			if (lmx->l_h > 1024)
-				lmx->l_h = 1024;
-			draw_line(lmx, c, lmx->l_h, 1);
-		}
-		else
-		{
-			lmx->d_t = dist(lmx->px, lmx->py, lmx->hx, lmx->hy) * cos(ra - lmx->pa);
-			if (lmx->d_t < 0.1)
-				lmx->d_t = 0.1;
-			lmx->l_h = (64 * 1024) / lmx->d_t;
-			if (lmx->l_h > 1024)
-				lmx->l_h = 1024;
-			draw_line(lmx, c, lmx->l_h, 0);
-		}
+		ray_x(lmx, &ra, ratan);
+		ray_y(lmx, &ra, ratan);
+		draw_ray(lmx, ra);
 		ra += (60 * DR) / 1920;
 		if (ra < 0)
 			ra += 2 * PI;
