@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ftlurker <ftlurker@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/04 16:17:06 by ftlurker         ###   ########.fr       */
+/*   Updated: 2026/04/08 19:54:46 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,60 @@
 # include <math.h>
 
 # define PI 3.1415926535
+# define N 4.71238898025
+# define E 6.283185307
+# define S 1.57079632675
+# define W 3.1415926535
 # define DR 0.0174533
+
+typedef struct s_tex
+{
+	void	*img;
+	char	*addr;
+	int		bpp;
+	int		ll;
+	int		endian;
+	int		width;
+	int		height;
+}	t_tex;
 
 typedef struct s_libx
 {
-	float			rx;
-	float			ry;
-	float			px;
-	float			py;
-	float			pdx;
-	float			pdy;
-	float			oldpy;
-	float			oldpx;
-	float			pa;
-	float			d_h;
-	float			hx;
-	float			hy;
-	float			d_v;
-	float			vx;
-	float			vy;
-	float			d_t;
-	float			l_h;
-	float			atan;
-	int				ll;
-	int				bpp;
-	int				endian;
-	int				matrix_s;
-	int				w;
-	int				a;
-	int				s;
-	int				d;
-	char			*addr;
-	void			*lmx;
-	void			*win;
-	void			*img;
-	float			**matrix;
+	float	xo;
+	float	yo;
+	float	rx;
+	float	ry;
+	float	pa;
+	float	px;
+	float	py;
+	float	pdx;
+	float	pdy;
+	float	oldpy;
+	float	oldpx;
+	float	d_h;
+	float	hx;
+	float	hy;
+	float	d_v;
+	float	vx;
+	float	vy;
+	float	d_t;
+	float	l_h;
+	float	atan;
+	int		ll;
+	int		bpp;
+	int		endian;
+	int		matrix_s;
+	int		w;
+	int		a;
+	int		s;
+	int		d;
+	int		last_mx;
+	char	*addr;
+	void	*lmx;
+	void	*win;
+	void	*img;
+	float	**matrix;
+	t_tex	tex[4];
 }	t_win;
 
 #endif
