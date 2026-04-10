@@ -1,0 +1,13 @@
+NO ./textures/B01.xpm
+SO ./textures/B02.xpm
+WE ./textures/B03.xpm
+EA ./textures/B04.xpm
+
+F 100,100,100
+C 50,50,50
+
+111111
+100001
+10E001   00
+111111
+

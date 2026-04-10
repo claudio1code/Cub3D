@@ -14,6 +14,7 @@
 # define CUB3D_H
 # define PI 3.1415926535
 # define DR 0.0174533
+# define S 0.0
 
 # include "libft.h"
 # include "stdio.h"
@@ -69,10 +70,16 @@ typedef struct s_libx
 	float			d_t;
 	float			l_h;
 	float			atan;
+	float			rx;
+	float			ry;
+	float			xo;
+	float			yo;
 	int				ll;
 	int				bpp;
 	int				endian;
 	int				matrix_s;
+	int				**matrix;
+	t_texture		tex[4];
 	int				w;
 	int				a;
 	int				s;
