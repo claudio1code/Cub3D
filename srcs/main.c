@@ -70,5 +70,6 @@ int	main(int argc, char **argv)
 		return (ft_lstclear(&file, free, 1));
 	printf("Sucesso: Mapa valido ate agora! Jogador no X:%f, Y:%f\n",
 		data.p_x, data.p_y);
+	init_game(&data);
 	return (ft_lstclear(&file, free, 0));
 }

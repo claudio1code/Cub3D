@@ -17,7 +17,9 @@ SRCS_LIST = main.c \
 			parsing/parser_elements.c \
 			parsing/validate_chars.c \
 			parsing/parse_map.c \
-			parsing/validate_map.c
+			parsing/validate_map.c \
+			tracing/cub3D.c \
+			tracing/init_textures.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
