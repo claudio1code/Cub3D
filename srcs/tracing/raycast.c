@@ -16,15 +16,15 @@ static void	ray_x(t_win *lmx, float *ra, float ratan)
 {
 	lmx->hx = lmx->px;
 	lmx->hy = lmx->py;
-	if (*ra < 0.001 || fabs(*ra - PI) < 0.001)
-		return ;
+	/*if (*ra < 0.001 || fabs(*ra - PI) < 0.001)
+		return ;*/
 	ratan = -1 / tan(*ra);
 	lmx->atan = ratan;
 	if (lmx->atan > 100)
 		lmx->atan = 100;
 	if (lmx->atan < -100)
 		lmx->atan = -100;
-	if (*ra > PI)
+	if (*ra >= PI)
 	{
 		lmx->ry = (((int)lmx->py >> 6) << 6) - 0.0001;
 		lmx->rx = (lmx->py - lmx->ry) * ratan + lmx->px;
@@ -51,14 +51,14 @@ static void	ray_y(t_win *lmx, float *ra, float ratan)
 	lmx->d_v = 1000000;
 	lmx->vx = lmx->px;
 	lmx->vy = lmx->py;
-	if (*ra > PI / 2 && *ra < 3 * PI / 2)
+	if (*ra >= PI / 2 && *ra < 3 * PI / 2)
 	{
 		lmx->rx = (((int)lmx->px >> 6) << 6) - 0.0001;
 		lmx->ry = (lmx->rx - lmx->px) * ratan + lmx->py;
 		lmx->xo = -64;
 		lmx->yo = lmx->xo * ratan;
 	}
-	else if (*ra < PI / 2 || *ra > 3 * PI / 2)
+	else if (*ra < PI / 2 || *ra >= 3 * PI / 2)
 	{
 		lmx->rx = (((int)lmx->px >> 6) << 6) + 64 + 0.0001;
 		lmx->ry = (lmx->rx - lmx->px) * ratan + lmx->py;
