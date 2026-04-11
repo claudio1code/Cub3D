@@ -107,5 +107,7 @@ int		validate_args(int argc, char **argv);
 int		validate_map_char(t_infoMaps *data);
 int		validate_wall(t_infoMaps *data);
 int		init_textures(t_win *lmx);
+void	free_info_maps(t_infoMaps *data);
+void	free_win(t_win *lmx);
 
 #endif

@@ -67,9 +67,13 @@ int	main(int argc, char **argv)
 	if (!file)
 		return (1);
 	if (!parse_core(file, &data))
+	{
+		free_info_maps(&data);
 		return (ft_lstclear(&file, free, 1));
+	}
 	printf("Sucesso: Mapa valido ate agora! Jogador no X:%f, Y:%f\n",
 		data.p_x, data.p_y);
 	init_game(&data);
+	free_info_maps(&data);
 	return (ft_lstclear(&file, free, 0));
 }

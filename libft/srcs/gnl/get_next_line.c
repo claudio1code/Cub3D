@@ -120,5 +120,6 @@ static char	*ft_strjoin_and_free_rest(char *rest, char *buffer)
 	j = -1;
 	while (buffer[++j])
 		new_str[j + i] = buffer[j];
+	free(rest);
 	return (new_str);
 }

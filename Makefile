@@ -18,6 +18,7 @@ SRCS_LIST = main.c \
 			parsing/validate_chars.c \
 			parsing/parse_map.c \
 			parsing/validate_map.c \
+			parsing/cleanup.c \
 			tracing/cub3D.c \
 			tracing/init_textures.c
 

@@ -443,24 +443,26 @@ void	init_game(t_infoMaps *data)
 
 	lmx = ft_calloc(1, sizeof(t_win));
 	if (!lmx)
-		exit(1);
+		return ;
 	lmx->map_data = data;
 	lmx->matrix_s = data->height;
 	lmx->matrix = ft_calloc(data->height, sizeof(float *));
 	if (!lmx->matrix)
-		exit(1);
+		return (free_win(lmx));
 	iy = -1;
 	while (++iy < data->height)
 	{
 		lmx->matrix[iy] = ft_calloc(data->width, sizeof(float));
+		if (!lmx->matrix[iy])
+			return (free_win(lmx));
 		ix = -1;
 		while (++ix < data->width)
 		{
 			if (data->grid[iy][ix] == '1')
 				lmx->matrix[iy][ix] = 1;
 			else if (data->grid[iy][ix] == ' ' || data->grid[iy][ix] == '0'
-					|| data->grid[iy][ix] == 'N' || data->grid[iy][ix] == 'S'
-					|| data->grid[iy][ix] == 'E' || data->grid[iy][ix] == 'W')
+				|| data->grid[iy][ix] == 'N' || data->grid[iy][ix] == 'S'
+				|| data->grid[iy][ix] == 'E' || data->grid[iy][ix] == 'W')
 			{
 				if (data->grid[iy][ix] == 'N' || data->grid[iy][ix] == 'S'
 					|| data->grid[iy][ix] == 'E' || data->grid[iy][ix] == 'W')
@@ -474,11 +476,15 @@ void	init_game(t_infoMaps *data)
 	}
 	lmx->lmx = mlx_init();
 	if (!lmx->lmx)
-		exit(1);
+		return (free_win(lmx));
 	if (!init_textures(lmx))
-		exit(1);
+		return (free_win(lmx));
 	lmx->win = mlx_new_window(lmx->lmx, 1920, 1024, "cub3D");
+	if (!lmx->win)
+		return (free_win(lmx));
 	lmx->img = mlx_new_image(lmx->lmx, 1920, 1024);
+	if (!lmx->img)
+		return (free_win(lmx));
 	lmx->addr = mlx_get_data_addr(lmx->img, &lmx->bpp, &lmx->ll, &lmx->endian);
 	lmx->px = (data->p_x * 64) + 32;
 	lmx->py = (data->p_y * 64) + 32;
