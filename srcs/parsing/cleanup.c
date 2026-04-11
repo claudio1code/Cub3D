@@ -35,6 +35,18 @@ void	free_info_maps(t_infoMaps *data)
 	}
 }
 
+static void	free_textures(t_win *lmx)
+{
+	int	i;
+
+	i = -1;
+	while (++i < 4)
+	{
+		if (lmx->tex[i].img)
+			mlx_destroy_image(lmx->lmx, lmx->tex[i].img);
+	}
+}
+
 void	free_win(t_win *lmx)
 {
 	int	i;
@@ -50,12 +62,7 @@ void	free_win(t_win *lmx)
 	}
 	if (lmx->img)
 		mlx_destroy_image(lmx->lmx, lmx->img);
-	i = -1;
-	while (++i < 4)
-	{
-		if (lmx->tex[i].img)
-			mlx_destroy_image(lmx->lmx, lmx->tex[i].img);
-	}
+	free_textures(lmx);
 	if (lmx->win)
 		mlx_destroy_window(lmx->lmx, lmx->win);
 	if (lmx->lmx)

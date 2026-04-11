@@ -6,7 +6,7 @@
 /*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/10 10:00:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/10 13:00:00 by clados-s         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,41 @@ typedef struct s_libx
 	t_infoMaps		*map_data;
 }	t_win;
 
+/* Parsing */
 t_list	*read_cub_file(char *filename);
 t_list	*find_map_start(t_list *lst);
 void	get_map_dimensions(t_list *map_start, t_infoMaps *data);
 void	init_maps(t_infoMaps *data);
-void	init_game(t_infoMaps *data);
 int		extract_map(t_list *map_start, t_infoMaps *data);
 int		parser_elements(char *line, t_infoMaps *data);
 int		get_color(char *line, int *color_ptr);
 int		validate_args(int argc, char **argv);
 int		validate_map_char(t_infoMaps *data);
 int		validate_wall(t_infoMaps *data);
-int		init_textures(t_win *lmx);
 void	free_info_maps(t_infoMaps *data);
+
+/* Tracing Core */
+void	init_game(t_infoMaps *data);
+void	game(t_win *lmx);
+int		init_textures(t_win *lmx);
+int		close_window(t_win *lmx);
 void	free_win(t_win *lmx);
+
+/* Render & Raycast */
+int		paint(void *lm);
+void	draw_background(t_win *lmx);
+void	draw_line(t_win *lmx, int x, int tex_x, t_tex *tex);
+void	rays(t_win *lmx, int r, float ra, float ratan);
+float	dist(float ax, float ay, float bx, float by);
+
+/* Minimap */
+void	m_paint(t_win *lmx);
+
+/* Hooks & movement */
+int		mouse_move(int x, int y, t_win *lmx);
+int		key_press(int k_code, t_win *lmx);
+int		key_release(int k_code, t_win *lmx);
+void	movement(t_win *lmx, float strafe_dx, float strafe_dy);
+void	limits(t_win *lmx);
 
 #endif

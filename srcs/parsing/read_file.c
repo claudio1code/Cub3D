@@ -34,7 +34,6 @@ static t_list	*loop_read(char *line, int fd)
 	return (head);
 }
 
-
 t_list	*read_cub_file(char *filename)
 {
 	int		fd;

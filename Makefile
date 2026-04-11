@@ -20,7 +20,11 @@ SRCS_LIST = main.c \
 			parsing/validate_map.c \
 			parsing/cleanup.c \
 			tracing/cub3D.c \
-			tracing/init_textures.c
+			tracing/init_textures.c \
+			tracing/raycast.c \
+			tracing/render.c \
+			tracing/player.c \
+			tracing/minimap.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))
