@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 12:10:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/04/11 12:10:00 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/04/12 11:50:34 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	movement(t_win *lmx, float strafe_dx, float strafe_dy)
 		lmx->px += strafe_dx;
 		lmx->py += strafe_dy;
 	}
+	movement_2(lmx);
 }
 
 void	limits(t_win *lmx)
@@ -85,6 +86,10 @@ int	key_release(int k_code, t_win *lmx)
 		lmx->s = 0;
 	else if (k_code == 100)
 		lmx->d = 0;
+	else if (k_code == 65361)
+		lmx->l = 0;
+	else if (k_code == 65363)
+		lmx->r = 0;
 	return (1);
 }
 
@@ -100,5 +105,9 @@ int	key_press(int k_code, t_win *lmx)
 		lmx->s = 1;
 	else if (k_code == 100)
 		lmx->d = 1;
+	else if (k_code == 65361)
+		lmx->l = 1;
+	else if (k_code == 65363)
+		lmx->r = 1;
 	return (1);
 }

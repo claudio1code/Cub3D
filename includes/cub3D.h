@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
+/*   Updated: 2026/04/12 11:46:13 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ typedef struct s_libx
 	int				a;
 	int				s;
 	int				d;
+	int				r;
+	int				l;
 	int				last_mx;
 	char			*addr;
 	void			*lmx;
@@ -104,6 +106,7 @@ int		validate_args(int argc, char **argv);
 int		validate_map_char(t_infoMaps *data);
 int		validate_wall(t_infoMaps *data);
 void	free_info_maps(t_infoMaps *data);
+void	movement_2(t_win*lmx);
 void	ft_gnl_cleanup(void);
 void	init_game(t_infoMaps *data, t_list *file);
 void	game(t_win *lmx);

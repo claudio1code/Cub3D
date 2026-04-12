@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstmap_bonus.c                                  :+:      :+:    :+:   */
+/*   ft_del_del_n.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/31 14:03:36 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/12 11:58:46 by cacesar-         ###   ########.fr       */
+/*   Created: 2025/10/06 09:42:21 by cacesar-          #+#    #+#             */
+/*   Updated: 2026/04/12 08:49:56 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+void	ft_del_del_n(void**tofree, int n)
 {
-	t_list	*new;
-	t_list	*temp;
+	int	count;
 
-	if (!lst || !f || !del)
-		return (NULL);
-	new = ft_lstnew(f(lst->content));
-	if (!new)
-		return (NULL);
-	while (lst->next && lst)
-	{
-		temp = ft_lstnew(f(lst->next->content));
-		if (!temp)
-		{
-			ft_lstclear(&new, del, 0);
-			return (NULL);
-		}
-		lst = lst->next;
-		ft_lstadd_back(&new, temp);
-	}
-	return (new);
+	count = 0;
+	if (!tofree)
+		return ;
+	while (count < n)
+		ft_del(tofree[count++]);
+	ft_del(tofree);
 }

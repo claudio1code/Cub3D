@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:41:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
+/*   Updated: 2025/12/04 15:35:17 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,15 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = ft_calloc(sizeof(char), BUFFER_SIZE + 1);
 	bytes_buffer = 1;
-	while ((!rest || !ft_strchr(rest, '\n')) && bytes_buffer > 0)
+	while (!ft_strchr(rest, '\n') && bytes_buffer > 0)
 	{
 		bytes_buffer = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_buffer == -1)
-		{
-			free(buffer);
-			rest = free_null(rest);
-			return (NULL);
-		}
+			return (free(buffer), rest = free_null(rest));
 		buffer[bytes_buffer] = '\0';
 		rest = ft_strjoin_and_free_rest(rest, buffer);
 		if (!rest)
-		{
-			free(buffer);
 			return (NULL);
-		}
 	}
 	free(buffer);
 	line = pickup_line(rest);
@@ -127,6 +120,5 @@ static char	*ft_strjoin_and_free_rest(char *rest, char *buffer)
 	j = -1;
 	while (buffer[++j])
 		new_str[j + i] = buffer[j];
-	free(rest);
 	return (new_str);
 }

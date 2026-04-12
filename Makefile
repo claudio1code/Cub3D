@@ -1,7 +1,7 @@
 NAME = cub3D
 
 CC = cc
-CFLAGS = -Wall -Werror -Wextra -O3
+CFLAGS = -g3 -Wall -Werror -Wextra
 
 SRCS_DIR = srcs/
 OBJS_DIR = objs/

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 12:57:42 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/12 11:57:40 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ size_t			ft_strlen(const char *s);
 void			ft_bzero(void *s, size_t n);
 void			ft_del(void*tofree);
 void			ft_del_del(void**tofree);
+void			ft_del_del_n(void**tofree, int n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memset(void *s, int c, size_t n);
@@ -79,12 +80,12 @@ typedef struct s_list
 }	t_list;
 
 t_list			*ft_lstnew(void *content);
-t_list			*ft_lstlast(t_list *lst);
-int				ft_lstsize(t_list *lst);
-int				ft_lstclear(t_list **lst, void (*del)(void*), int r);
 void			ft_lstadd_front(t_list **lst, t_list *new);
+int				ft_lstsize(t_list *lst);
+t_list			*ft_lstlast(t_list *lst);
 void			ft_lstadd_back(t_list **lst, t_list *new);
 void			ft_lstdelone(t_list *lst, void (*del)(void*));
+int				ft_lstclear(t_list **lst, void (*del)(void*), int flag);
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));

@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/11 12:05:00 by cacesar-          #+#    #+#             */
-/*   Updated: 2026/04/11 12:05:00 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/04/12 11:44:32 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,24 @@ int	paint(void *lm)
 	while (c < 20005000)
 		c++;
 	return (1);
+}
+
+void	movement_2(t_win*lmx)
+{
+	if (lmx->l)
+	{
+		lmx->pa -= 0.05f;
+		if (lmx->pa < 0)
+			lmx->pa += 2 * PI;
+		lmx->pdx = cos(lmx->pa) * 2;
+		lmx->pdy = sin(lmx->pa) * 2;
+	}
+	if (lmx->r)
+	{
+		lmx->pa += 0.05f;
+		if (lmx->pa >= 2 * PI)
+			lmx->pa -= 2 * PI;
+		lmx->pdx = cos(lmx->pa) * 2;
+		lmx->pdy = sin(lmx->pa) * 2;
+	}
 }

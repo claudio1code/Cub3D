@@ -33,6 +33,7 @@ MEMORY_FILES = 	ft_bzero.c \
 				ft_calloc.c \
 				ft_del.c\
 				ft_del_del.c\
+				ft_del_del_n.c\
 				ft_memchr.c \
 				ft_memcmp.c \
 				ft_memcpy.c \
@@ -93,7 +94,6 @@ OBJS = $(patsubst $(SRC_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 GREEN = \033[0;92m
 YELLOW = \033[0;93m
 CYAN = \033[0;96m
-RED = \033[1;31m
 DEF_COLOR = \033[0;39m
 
 all: $(NAME)
@@ -116,11 +116,9 @@ $(OBJS_DIR)%.o: $(SRC_DIR)%.c
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@printf "$(RED) LIBFT'S Objects cleaned!$(RESET)\n"
 
 fclean: clean
 	@rm -f $(NAME)
-	@printf "$(RED) Executable [LIBFT] cleaned!$(RESET)\n"
 
 re: fclean all
 

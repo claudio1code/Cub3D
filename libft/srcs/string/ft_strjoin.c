@@ -22,13 +22,7 @@ char	*ft_strjoin(char *s1, char *s2, int f1, int f2)
 	len_s = ft_strlen(s1) + ft_strlen(s2);
 	new_str = malloc(len_s + 1);
 	if (!new_str)
-	{
-		if (f1)
-			free(s1);
-		if (f2)
-			free(s2);
 		return (NULL);
-	}
 	i = -1;
 	j = -1;
 	while (s1 && s1[++i])
