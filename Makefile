@@ -9,7 +9,11 @@ INCS_DIR = includes/
 LIBFT_DIR = libft/
 MLX_DIR = minilibx-linux/
 
-SRCS_LIST = tracing/cub3D.c
+SRCS_LIST = tracing/init.c\
+			tracing/game.c\
+			tracing/paint.c\
+			tracing/rays.c\
+			tracing/utils.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

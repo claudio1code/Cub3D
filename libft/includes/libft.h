@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/21 14:24:09 by clados-s          #+#    #+#             */
-/*   Updated: 2026/01/29 11:48:06 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/04/12 08:48:59 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ size_t			ft_strlen(const char *s);
 void			ft_bzero(void *s, size_t n);
 void			ft_del(void*tofree);
 void			ft_del_del(void**tofree);
+void			ft_del_del_n(void**tofree, int n);
 void			*ft_memcpy(void *dest, const void *src, size_t n);
 void			*ft_memmove(void *dest, const void *src, size_t n);
 void			*ft_memset(void *s, int c, size_t n);

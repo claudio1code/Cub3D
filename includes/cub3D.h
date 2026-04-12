@@ -6,7 +6,7 @@
 /*   By: cacesar- <cacesar-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/08 19:54:46 by cacesar-         ###   ########.fr       */
+/*   Updated: 2026/04/12 09:44:49 by cacesar-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ typedef struct s_libx
 	int		a;
 	int		s;
 	int		d;
+	int		r;
+	int		l;
 	int		last_mx;
 	char	*addr;
 	void	*lmx;
@@ -75,5 +77,16 @@ typedef struct s_libx
 	float	**matrix;
 	t_tex	tex[4];
 }	t_win;
+
+int		paint(void*lm);
+void	game(t_win*lmx);
+void	ray_y2(t_win*lmx);
+void	ray_x2(t_win*lmx);
+void	movement_2(t_win*lmx);
+void	blackout(t_win*lmx, int x, int y);
+void	init(t_win*lmx, float ix, float iy);
+void	rays(t_win*lmx, int r, float ra, float ratan);
+void	paint_m(t_win*lmx, float iy, float ix, char*i);
+float	dist(float ax, float ay, float bx, float by);
 
 #endif
