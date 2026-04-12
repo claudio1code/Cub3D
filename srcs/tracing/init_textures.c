@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_textures.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 10:33:55 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/10 10:10:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ static int	load_single_texture(void *mlx_ptr, t_tex *tex, char *path)
 		return (0);
 	tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->ll, &tex->endian);
 	if (!tex->addr)
+	{
+		mlx_destroy_image(mlx_ptr, tex->img);
 		return (0);
+	}
 	return (1);
 }
 

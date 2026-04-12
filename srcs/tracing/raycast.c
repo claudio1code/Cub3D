@@ -16,8 +16,6 @@ static void	ray_x(t_win *lmx, float *ra, float ratan)
 {
 	lmx->hx = lmx->px;
 	lmx->hy = lmx->py;
-	/*if (*ra < 0.001 || fabs(*ra - PI) < 0.001)
-		return ;*/
 	ratan = -1 / tan(*ra);
 	lmx->atan = ratan;
 	if (lmx->atan > 100)

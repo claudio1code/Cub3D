@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:14:53 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 16:54:22 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,18 @@ int	main(int argc, char **argv)
 	init_maps(&data);
 	file = read_cub_file(argv[1]);
 	if (!file)
+	{
+		get_next_line(-1);
 		return (1);
+	}
 	if (!parse_core(file, &data))
 	{
 		free_info_maps(&data);
+		get_next_line(-1);
 		return (ft_lstclear(&file, free, 1));
 	}
-	init_game(&data);
+	init_game(&data, file);
 	free_info_maps(&data);
+	get_next_line(-1);
 	return (ft_lstclear(&file, free, 0));
 }

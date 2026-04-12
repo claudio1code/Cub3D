@@ -24,7 +24,8 @@ SRCS_LIST = main.c \
 			tracing/raycast.c \
 			tracing/render.c \
 			tracing/player.c \
-			tracing/minimap.c
+			tracing/minimap.c \
+			tracing/matrix.c
 
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_LIST))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_LIST:.c=.o))

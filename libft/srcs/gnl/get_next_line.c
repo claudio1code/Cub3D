@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 13:41:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 14:40:01 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,18 @@ char	*get_next_line(int fd)
 	{
 		bytes_buffer = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_buffer == -1)
-			return (free(buffer), rest = free_null(rest));
+		{
+			free(buffer);
+			rest = free_null(rest);
+			return (NULL);
+		}
 		buffer[bytes_buffer] = '\0';
 		rest = ft_strjoin_and_free_rest(rest, buffer);
 		if (!rest)
+		{
+			free(buffer);
 			return (NULL);
+		}
 	}
 	free(buffer);
 	line = pickup_line(rest);

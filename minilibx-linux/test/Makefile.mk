@@ -33,7 +33,7 @@ DEF_COLOR = \033[0;39m
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	@printf "$(YELLOW)A linkar $(NAME)...  $(DEF_COLOR)"
+	@printf "$(YELLOW) Linking $(NAME)...  $(DEF_COLOR)"
 	@sh -c ' \
 		(while :; do \
 			printf "\b|"; sleep 0.05; \

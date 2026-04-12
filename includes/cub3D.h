@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 17:17:33 by clados-s          #+#    #+#             */
-/*   Updated: 2026/04/10 13:00:00 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 21:21:43 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct s_tex
 
 typedef struct s_infoMaps
 {
-	t_tex		textures[4];
 	char		*no_texture;
 	char		*so_texture;
 	char		*we_texture;
@@ -93,6 +92,7 @@ typedef struct s_libx
 	float			**matrix;
 	t_tex			tex[4];
 	t_infoMaps		*map_data;
+	t_list			*file_lst;
 }	t_win;
 
 /* Parsing */
@@ -107,13 +107,15 @@ int		validate_args(int argc, char **argv);
 int		validate_map_char(t_infoMaps *data);
 int		validate_wall(t_infoMaps *data);
 void	free_info_maps(t_infoMaps *data);
+void	ft_gnl_cleanup(void);
 
 /* Tracing Core */
-void	init_game(t_infoMaps *data);
+void	init_game(t_infoMaps *data, t_list *file);
 void	game(t_win *lmx);
 int		init_textures(t_win *lmx);
 int		close_window(t_win *lmx);
 void	free_win(t_win *lmx);
+int		alloc_matrix(t_win *lmx, t_infoMaps *data);
 
 /* Render & Raycast */
 int		paint(void *lm);

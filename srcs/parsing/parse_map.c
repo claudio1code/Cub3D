@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   parse_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: clados-s <clados-s@student.42.fr>          +#+  +:+       +#+        */
+/*   By: claudio <claudio@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/26 11:43:07 by clados-s          #+#    #+#             */
-/*   Updated: 2026/03/30 14:58:02 by clados-s         ###   ########.fr       */
+/*   Updated: 2026/04/11 20:53:17 by claudio          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "cub3D.h"
 
 #include "cub3D.h"
 
@@ -70,6 +68,13 @@ static void	fill_row(char *grid_row, char *line, int width)
 	grid_row[width] = '\0';
 }
 
+static void	free_grid(char **grid, int i)
+{
+	while (--i >= 0)
+		free(grid[i]);
+	free(grid);
+}
+
 int	extract_map(t_list *map_start, t_infoMaps *data)
 {
 	int	i;
@@ -85,7 +90,11 @@ int	extract_map(t_list *map_start, t_infoMaps *data)
 	{
 		data->grid[i] = malloc(sizeof(char) * (data->width + 1));
 		if (!data->grid[i])
+		{
+			free_grid(data->grid, i);
+			data->grid = NULL;
 			return (0);
+		}
 		fill_row(data->grid[i], (char *)map_start->content, data->width);
 		i++;
 		map_start = map_start->next;
