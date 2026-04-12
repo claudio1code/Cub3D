@@ -15,8 +15,6 @@
 
 # include "../libft/includes/libft.h"
 # include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
-# include <X11/X.h>
 # include <math.h>
 # include <stdio.h>
 
@@ -95,7 +93,6 @@ typedef struct s_libx
 	t_list			*file_lst;
 }	t_win;
 
-/* Parsing */
 t_list	*read_cub_file(char *filename);
 t_list	*find_map_start(t_list *lst);
 void	get_map_dimensions(t_list *map_start, t_infoMaps *data);
@@ -108,26 +105,18 @@ int		validate_map_char(t_infoMaps *data);
 int		validate_wall(t_infoMaps *data);
 void	free_info_maps(t_infoMaps *data);
 void	ft_gnl_cleanup(void);
-
-/* Tracing Core */
 void	init_game(t_infoMaps *data, t_list *file);
 void	game(t_win *lmx);
 int		init_textures(t_win *lmx);
 int		close_window(t_win *lmx);
 void	free_win(t_win *lmx);
 int		alloc_matrix(t_win *lmx, t_infoMaps *data);
-
-/* Render & Raycast */
 int		paint(void *lm);
 void	draw_background(t_win *lmx);
 void	draw_line(t_win *lmx, int x, int tex_x, t_tex *tex);
 void	rays(t_win *lmx, int r, float ra, float ratan);
 float	dist(float ax, float ay, float bx, float by);
-
-/* Minimap */
 void	m_paint(t_win *lmx);
-
-/* Hooks & movement */
 int		mouse_move(int x, int y, t_win *lmx);
 int		key_press(int k_code, t_win *lmx);
 int		key_release(int k_code, t_win *lmx);
